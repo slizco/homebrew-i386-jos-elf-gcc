@@ -1,14 +1,15 @@
 class I386JosElfGcc < Formula
   homepage "http://pdos.csail.mit.edu/6.828/2014/tools.html"
-  url "http://ftpmirror.gnu.org/gcc/gcc-4.6.1/gcc-core-4.6.1.tar.bz2"
-  sha256 "0bbb8f754a31f29013f6e9ad4c755d92bb0f154a665c4b623e86ae7174d98e33"
+  url "http://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz"
+  sha256 "a931a750d6feadacbeecb321d73925cd5ebb6dfa7eff0802984af3aef63759f4"
 
+  depends_on 'gcc'
   depends_on 'gmp'
   depends_on 'libmpc'
   depends_on 'mpfr'
+  depends_on 'isl'
+  depends_on 'cloog'
   depends_on 'i386-jos-elf-binutils'
-
-  patch :DATA
 
   def install
     mkdir 'build' do
@@ -21,8 +22,14 @@ class I386JosElfGcc < Formula
                              "--with-newlib",
                              "--with-as=#{Formula["i386-jos-elf-binutils"].opt_prefix}/bin/i386-jos-elf-as",
                              "--with-ld=#{Formula["i386-jos-elf-binutils"].opt_prefix}/bin/i386-jos-elf-ld",
+                             "--with-gmp=#{Formula["gmp"].opt_prefix}",
+                             "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
+                             "--with-mpc=#{Formula["libmpc"].opt_prefix}",
                              "--without-headers",
-                             "--enable-languages=c"
+                             "--enable-languages=c",
+                             "CC=/usr/local/bin/gcc-9",
+                             "CXX=/usr/local/bin/g++-9"
+
       system "make", "all-gcc"
       system "make", "install-gcc"
       system "make", "all-target-libgcc"
@@ -34,24 +41,3 @@ class I386JosElfGcc < Formula
     system "#{bin}/i386-jos-elf-gcc -v"
   end
 end
-
-__END__
-diff --git a/gcc/gengtype.c b/gcc/gengtype.c
-index abf17f8..550d3bb 100644
---- a/gcc/gengtype.c
-+++ b/gcc/gengtype.c
-@@ -3594,13 +3594,13 @@ write_field_root (outf_p f, pair_p v, type_p type, const char *name,
-                  int has_length, struct fileloc *line, const char *if_marked,
-                  bool emit_pch, type_p field_type, const char *field_name)
- {
-+  struct pair newv;
-   /* If the field reference is relative to V, rather than to some
-      subcomponent of V, we can mark any subarrays with a single stride.
-      We're effectively treating the field as a global variable in its
-      own right.  */
-   if (v && type == v->type)
-     {
--      struct pair newv;
- 
-       newv = *v;
-       newv.type = field_type;

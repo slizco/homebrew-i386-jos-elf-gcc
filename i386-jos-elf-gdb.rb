@@ -1,7 +1,7 @@
 class I386JosElfGdb < Formula
   homepage "http://pdos.csail.mit.edu/6.828/2014/tools.html"
-  url "http://ftpmirror.gnu.org/gdb/gdb-7.3.1.tar.bz2"
-  sha256 "6d7bff716fde98d03866a1b747c0929ee7dba49bca13e01d975e0b0fa9b33a28"
+  url "http://ftp.gnu.org/gnu/gdb/gdb-8.3.tar.gz"
+  sha256 "b2266ec592440d0eec18ee1790f8558b3b8a2845b76cc83a872e39b501ce8a28"
 
   def install
     system "./configure", "--prefix=#{prefix}",
@@ -11,11 +11,6 @@ class I386JosElfGdb < Formula
                           "--disable-werror"
     system "make", "all"
     system "make", "install"
-    # avoid conflict with binutil
-    if Formula["i386-jos-elf-binutils"].installed?
-      rm_r share/"info"
-      rm_r lib
-    end
   end
 
   test do
