@@ -3,7 +3,7 @@ class I386JosElfGcc < Formula
   url "http://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz"
   sha256 "a931a750d6feadacbeecb321d73925cd5ebb6dfa7eff0802984af3aef63759f4"
 
-  depends_on 'gcc'
+  depends_on 'gcc' # will need to be changed to gcc@9 when next major version released
   depends_on 'gmp'
   depends_on 'libmpc'
   depends_on 'mpfr'

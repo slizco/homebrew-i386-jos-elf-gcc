@@ -13,3 +13,10 @@ install:
 ```
 $ brew install slizco/i386-jos-elf-gcc/i386-jos-elf-gcc slizco/i386-jos-elf-gcc/i386-jos-elf-gdb
 ```
+
+## versions
+These formulae will install the following toolset:
+  1. GNU GCC 9
+  1. i386-jos-elf-binutils 2.32
+  1. i386-jos-elf-gcc 9.2.0
+  1. i386-jos-elf-gdb 8.3.0
